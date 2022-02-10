@@ -1,28 +1,32 @@
+/*
+Copyright © 2022 NAME HERE <EMAIL ADDRESS>
+
+*/
 package cmd
 
 import (
 	"fmt"
 	"github.com/docker/docker/api/types"
 	"github.com/polivera/denv-extract/utils"
-	"github.com/spf13/cobra"
 	"os"
-	"strings"
+
+	"github.com/spf13/cobra"
 )
 
-// listCmd represents the list command
-var listCmd = &cobra.Command{
-	Use:   "list <container-name>",
-	Short: "List environment variables of a container",
+// allCmd represents the all command
+var allCmd = &cobra.Command{
+	Use:   "all",
+	Short: "Dump container env variables into file.",
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) < 1 {
 			return fmt.Errorf("container name is required")
 		}
 		return nil
 	},
-	Long: `Get a list of all environment variables from a container`,
+	Long: `Gather all environment variables from a container and dump them in a .env file.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var (
-			varList       []string
+			dumpPath      string
 			server        string
 			err           error
 			containerInfo types.ContainerJSON
@@ -43,14 +47,14 @@ var listCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		for _, envVar := range utils.CleanEnvArray(containerInfo.Config.Env) {
-			varList = append(varList, strings.Split(envVar, "=")[0])
+		if dumpPath, err = utils.WriteToEnvFile(utils.CleanEnvArray(containerInfo.Config.Env)); err != nil {
+			fmt.Println("[ERROR] - Can't dump result " + err.Error())
+			os.Exit(1)
 		}
-
-		fmt.Println(strings.Join(varList, "\n"))
+		fmt.Println("Result written to " + dumpPath)
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(listCmd)
+	rootCmd.AddCommand(allCmd)
 }

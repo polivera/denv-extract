@@ -41,8 +41,9 @@ func (a ask) MultiSelect(message string, options []string) ([]int, []string, err
 
 	err = survey.AskOne(
 		&survey.MultiSelect{
-			Message: message,
-			Options: options,
+			Message:  message,
+			Options:  options,
+			PageSize: 20,
 		},
 		&selIndexes,
 	)
