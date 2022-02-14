@@ -13,6 +13,8 @@ You can connect to a remote server using the --server flag and using ssh url lik
 ### How to install
 Run the following command: ``` go install github.com/polivera/denv-extract@latest```
 
+Make sure that ```$GOPATH/bin``` is in your PATH
+
 ### Known issues
 * If the ssh connection requires prompt (either because of first connect of because of OTP authentication) the app will hang
 * I just test this 3 times so I'm sure it will be a lot more :)
