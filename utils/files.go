@@ -50,7 +50,9 @@ func ReadFromEnvFile(path string) ([]string, error) {
 	}
 
 	for _, line := range strings.Split(string(content), "\n") {
-		result = append(result, line)
+		if line != "" {
+			result = append(result, line)
+		}
 	}
 
 	return result, nil

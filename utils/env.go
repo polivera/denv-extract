@@ -40,9 +40,13 @@ func isBlacklisted(item string) (exists bool, index int) {
 // Also removes begin and end double quotes and scape double quotes from the value.
 func cleanValue(key string, value string) string {
 	replacer := regexp.MustCompile("\n|\t|(  )|^\"|\"$")
-
 	value = replacer.ReplaceAllString(value, "")
-	value = strings.ReplaceAll(value, "\"", "\\\"")
 
-	return fmt.Sprintf("%s=\"%s\"", key, value)
+	if strings.Contains(value, "\"") {
+		if strings.Contains(value, "'") {
+			value = strings.ReplaceAll(value, "'", "\\'")
+		}
+		return fmt.Sprintf("%s='%s'", key, value)
+	}
+	return fmt.Sprintf("%s=%s", key, value)
 }
