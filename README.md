@@ -10,10 +10,10 @@ You can see a demo here
 
 You can connect to a remote server using the --server flag and using ssh url like ```ssh://user@host```.
 
-### Installation
-```
-go install github.com/polivera/denv-extract@latest 
-```
+### How to install
+Run the following command: ``` go install github.com/polivera/denv-extract@latest```
+
+Make sure that ```$GOPATH/bin``` is in your PATH
 
 ### Known issues
 * If the ssh connection requires prompt (either because of first connect of because of OTP authentication) the app will hang
