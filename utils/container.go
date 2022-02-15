@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"errors"
 	"github.com/docker/docker/api/types"
 	"github.com/polivera/denv-extract/helpers/docker"
 	"github.com/polivera/denv-extract/helpers/survey"
@@ -35,6 +36,10 @@ func SearchSingleContainerInfo(containerCriteria string, server string) (types.C
 
 	if info, err = dockerClient.GetContainerInfo(containerId); err != nil {
 		return info, err
+	}
+
+	if info.Config == nil {
+		return info, errors.New("no container found")
 	}
 
 	return info, err

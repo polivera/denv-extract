@@ -3,7 +3,6 @@ package utils
 import (
 	"fmt"
 	"os"
-	"regexp"
 	"strings"
 )
 
@@ -18,11 +17,6 @@ func WriteToEnvFile(envVarsList []string) (string, error) {
 		f        *os.File
 	)
 
-	// Clean values
-	for ind, envVar := range envVarsList {
-		varParts := strings.Split(envVar, "=")
-		envVarsList[ind] = fmt.Sprintf("%s=\"%s\"", varParts[0], cleanEnvValue(varParts[1]))
-	}
 	// Get execution path
 	if filePath, err = os.Getwd(); err != nil {
 		return "", err
@@ -52,7 +46,6 @@ func ReadFromEnvFile(path string) ([]string, error) {
 	)
 
 	if content, err = os.ReadFile(path); err != nil {
-		fmt.Println("Cannot read file") //Should this be panic?
 		return nil, err
 	}
 
@@ -61,13 +54,4 @@ func ReadFromEnvFile(path string) ([]string, error) {
 	}
 
 	return result, nil
-}
-
-// cleanEnvValue remove spaces, tabs and carrier returns from env var values
-func cleanEnvValue(envValue string) string {
-	replacer := regexp.MustCompile("\n|\t|(    )")
-
-	envValue = strings.ReplaceAll(envValue, "\"", "\\\"")
-	envValue = replacer.ReplaceAllString(envValue, "")
-	return envValue
 }

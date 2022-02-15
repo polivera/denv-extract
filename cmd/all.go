@@ -42,11 +42,6 @@ var allCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		if containerInfo.Config == nil {
-			fmt.Println("No container found")
-			os.Exit(1)
-		}
-
 		if dumpPath, err = utils.WriteToEnvFile(utils.CleanEnvArray(containerInfo.Config.Env)); err != nil {
 			fmt.Println("[ERROR] - Can't dump result " + err.Error())
 			os.Exit(1)

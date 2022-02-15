@@ -47,11 +47,6 @@ var selectCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		if containerInfo.Config == nil {
-			fmt.Println("No container found")
-			os.Exit(1)
-		}
-
 		cleanedList = utils.CleanEnvArray(containerInfo.Config.Env)
 		for _, envVar := range cleanedList {
 			varList = append(varList, strings.Split(envVar, "=")[0])
