@@ -30,6 +30,29 @@ func TestWriteToEnvFile(t *testing.T) {
 	}
 }
 
+func TestReadFromEnvFile(t *testing.T) {
+	var (
+		filePath string
+		content  []string
+		err      error
+	)
+
+	envVars := getEnvArray()
+	if filePath, err = WriteToEnvFile(envVars); err != nil {
+		t.Fatalf("Getting an error when writting file. Err %s", err.Error())
+	}
+
+	if content, err = ReadFromEnvFile(filePath); err != nil {
+		t.Fatalf("Cant't read created env file")
+	}
+
+	for _, value := range content {
+		if value == "" {
+			t.Fatalf("Should not be any empty lines on result .env file")
+		}
+	}
+}
+
 func getEnvArray() []string {
 	return []string{
 		"INTERFACE=eth0",
@@ -39,6 +62,7 @@ func getEnvArray() []string {
 		"DHCP_ROUTER=1.2.3.4",
 		"ServerIP=1.2.3.4",
 		"WEBPASSWORD=single",
+		"",
 		"DHCP_ACTIVE=single",
 		"FOO_VAR=true",
 		"TZ=America/Argentina/Buenos_Aires",
