@@ -14,6 +14,10 @@ You can connect to a remote server using the --server flag and using ssh url lik
 Run the following command: ``` go install github.com/polivera/denv-extract@latest```
 
 Make sure that ```$GOPATH/bin``` is in your PATH
+```shell
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+```
 
 ### Commands
 * **list** command example:
